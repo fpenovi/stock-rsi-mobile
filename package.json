@@ -4,7 +4,14 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest"
+    "test": "jest",
+    "precommit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{js, json}": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "dependencies": {
     "react": "16.6.0-alpha.8af6728",
@@ -12,8 +19,11 @@
   },
   "devDependencies": {
     "babel-jest": "23.6.0",
+    "husky": "^1.1.2",
     "jest": "23.6.0",
+    "lint-staged": "^7.3.0",
     "metro-react-native-babel-preset": "0.48.1",
+    "prettier": "^1.14.3",
     "react-test-renderer": "16.6.0-alpha.8af6728"
   },
   "jest": {
