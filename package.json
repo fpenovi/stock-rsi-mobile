@@ -1,11 +1,11 @@
 {
-  "name": "StockRSI",
+  "name": "stock-rsi",
   "version": "0.0.1",
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
-    "precommit": "lint-staged"
+    "postversion": "react-native-version"
   },
   "lint-staged": {
     "*.{js, json}": [
@@ -13,9 +13,15 @@
       "git add"
     ]
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
   "dependencies": {
     "react": "16.6.0-alpha.8af6728",
-    "react-native": "0.57.4"
+    "react-native": "0.57.4",
+    "react-native-config": "^0.11.5"
   },
   "devDependencies": {
     "babel-jest": "23.6.0",
@@ -24,6 +30,7 @@
     "lint-staged": "^7.3.0",
     "metro-react-native-babel-preset": "0.48.1",
     "prettier": "^1.14.3",
+    "react-native-version": "^2.6.6",
     "react-test-renderer": "16.6.0-alpha.8af6728"
   },
   "jest": {
