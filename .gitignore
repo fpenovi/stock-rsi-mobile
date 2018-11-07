@@ -20,9 +20,11 @@ DerivedData
 *.ipa
 *.xcuserstate
 project.xcworkspace
+ios/build
 
 # Gradle
-/build/
+android/build
+android/app/build/
 /RNTester/android/app/build/
 /RNTester/android/app/gradle/
 /RNTester/android/app/gradlew
@@ -44,7 +46,6 @@ buck-out
 .gradle
 local.properties
 *.iml
-/android/
 
 # Node
 node_modules
