@@ -10,17 +10,14 @@ RSI Indicators mobile app for major US blue-chip companies
 1. Clone repository  
 
 2. Install NPM dependencies  
-    cd into Root Project folder and run `npm i`  
+    cd into Root Project folder and run `npm i`    
     
-3. Generate native folders  
-    Run `react-native eject`  
+3. Create an environment config file following `.env.example`  
+    Possible environments are `.env.development` & `.env.production`
     
-4. Link Libraries  
-    Run `react-native link`  
-    
-5. Run on emulator  
+4. Run on emulator  
     Run `react-native run-android` or `react-native run-ios`  
-    *By default, running on emulator uses the development enviroment variables.*
+    *By default, running on emulator uses the development environment variables.*
     
 ## Versioning
 Work in Progress ...
