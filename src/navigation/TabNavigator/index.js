@@ -3,11 +3,13 @@ import StockListScreen from 'screens/StockListScreen';
 import ConfigurationScreen from 'screens/ConfigurationScreen';
 import { createBottomTabNavigator } from 'react-navigation';
 import { routes } from 'navigation/routes';
+import { palette } from 'config/theme';
 
 const tabConfig = {
   initialRouteName: routes.STOCK_LIST_SCREEN,
   tabBarOptions: {
-    showLabel: false
+    showLabel: true,
+    style: { backgroundColor: palette.primaryDark }
   }
 };
 
