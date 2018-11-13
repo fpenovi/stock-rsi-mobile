@@ -1,7 +1,6 @@
 export const palette = {
-  primaryAccent: '#35605A',
+  primaryAccent: '#FFFFFF',
   secondaryAccent: '#6B818C',
-  terciaryAccent: '#FFFFFF',
-  primaryDark: '#191716',
+  primaryDark: '#2b2b2b',
   secondaryDark: '#575A5E'
 };

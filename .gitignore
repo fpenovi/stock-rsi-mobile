@@ -22,6 +22,9 @@ DerivedData
 project.xcworkspace
 ios/build
 
+# Pods
+Pods/
+
 # Gradle
 android/build
 android/app/build/
