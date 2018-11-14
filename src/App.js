@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { ThemeProvider } from 'styled-components/native';
 import { StackNavigator } from 'navigation/StackNavigator';
-import { palette } from 'config/theme';
+import theme from 'config/theme';
 import env from 'react-native-config';
 
 export default class App extends Component {
@@ -11,7 +11,7 @@ export default class App extends Component {
 
   render() {
     return (
-      <ThemeProvider theme={palette}>
+      <ThemeProvider theme={theme}>
         <StackNavigator />
       </ThemeProvider>
     );

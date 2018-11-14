@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { palette } from 'config/theme';
 
 export const style = {
@@ -10,23 +11,18 @@ export const style = {
 export const activeTintColor = palette.primaryAccent;
 export const inactiveTintColor = palette.primaryAccent;
 
-export const MainWrapper = styled.View`
-  flex: 1;
-  align-items: center;
-  justify-content: flex-start;
-`;
-
-export const UnderlineWrapper = styled.View`
-  flex-direction: row;
-`;
-
 export const IconOverline = styled.View`
   flex: 1;
-  min-height: 3
-  background-color: ${props => (props.focused ? props.color : 'transparent')};
+  align-self: stretch;
+  justify-content: center;
+  align-items: center;
+  ${props =>
+    props.focused &&
+    `border-top-width: 3;
+    border-top-color: ${props.theme.primaryAccent}
+    `}
 `;
 
-export const IconWrapper = styled.View`
-  flex: 1;
-  justify-content: center;
+export const FloatingIcon = styled(Icon)`
+  position: absolute;
 `;

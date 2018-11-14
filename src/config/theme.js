@@ -5,3 +5,14 @@ export const palette = {
   secondaryDark: '#575A5E',
   terciaryDark: '#252525'
 };
+
+export const iconSizesNS = {
+  xs: 16,
+  md: 24,
+  lg: 32
+};
+
+export default {
+  ...palette,
+  ...iconSizesNS
+};
