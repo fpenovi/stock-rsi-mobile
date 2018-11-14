@@ -12,7 +12,16 @@ export const iconSizesNS = {
   lg: 32
 };
 
+/**
+ * Scales dp value proportionally to the device's physical properties such as
+ * height, width, pixel density, etc.
+ * @param dp
+ * @returns {*}
+ */
+export const s = dp => dp;
+
 export default {
   ...palette,
-  ...iconSizesNS
+  ...iconSizesNS,
+  s
 };
