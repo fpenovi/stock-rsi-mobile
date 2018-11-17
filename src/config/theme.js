@@ -1,9 +1,11 @@
 export const palette = {
   primaryAccent: '#FFFFFF',
-  secondaryAccent: '#6B818C',
+  secondaryAccent: '#7a909b',
   primaryDark: '#2b2b2b',
-  secondaryDark: '#575A5E',
-  terciaryDark: '#252525'
+  secondaryDark: '#626569',
+  terciaryDark: '#252525',
+  green: '#31f131',
+  red: '#f14d3f'
 };
 
 export const iconSizesNS = {
