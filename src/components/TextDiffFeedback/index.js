@@ -9,7 +9,7 @@ export const TextDiffFeedback = ({ diff, style }) => {
   return (
     <Container>
       <DiffText decreased={decreased} style={style}>
-        {` (${diff.toFixed(2)}%)`}
+        {` (${decreased ? '' : '+'}${diff.toFixed(2)}%)`}
       </DiffText>
       <Icon
         name={decreased ? 'trending-down' : 'trending-up'}
