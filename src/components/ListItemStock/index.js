@@ -9,6 +9,7 @@ import {
   LastUpdatedText,
   LeftSection,
   RightSection,
+  RsiText,
   SecondaryText,
   Sections,
   StockPrice
@@ -27,6 +28,7 @@ export class ListItemStock extends PureComponent {
     } = this.props;
 
     const dateUpdated = new Date(lastUpdated);
+    const [upperLimit, lowerLimit] = [70, 30];
 
     return (
       <Card error={error}>
@@ -34,7 +36,11 @@ export class ListItemStock extends PureComponent {
           <LeftSection>
             <CompanyName>{companyName}</CompanyName>
           </LeftSection>
-          <RightSection />
+          <RightSection>
+            <RsiText upperLimit={upperLimit} lowerLimit={lowerLimit}>
+              {rsi.toFixed(1)}
+            </RsiText>
+          </RightSection>
         </Sections>
         <BottomSection>
           <CompanySymbol>{symbol}</CompanySymbol>

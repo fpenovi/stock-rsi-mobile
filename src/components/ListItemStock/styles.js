@@ -28,6 +28,8 @@ export const LeftSection = styled.View`
 
 export const RightSection = styled.View`
   flex: 3;
+  justify-content: center;
+  align-items: flex-end;
 `;
 
 export const BottomSection = styled.View`
@@ -56,6 +58,16 @@ export const CompanySymbol = styled.Text`
   color: ${({ theme }) => theme.secondaryAccent};
   font-size: 14;
   letter-spacing: 1;
+`;
+
+export const RsiText = styled.Text`
+  color: ${({ theme, lowerLimit, upperLimit, children }) => {
+    if (children <= lowerLimit) return theme.red;
+    if (children >= upperLimit) return theme.green;
+    return theme.secondaryAccent;
+  }};
+  font-size: 20;
+  font-weight: bold;
 `;
 
 export const SecondaryText = styled.Text`
