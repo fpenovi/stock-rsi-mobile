@@ -1,30 +1,51 @@
 import React, { Component } from 'react';
-import { FlatList, StyleSheet } from 'react-native';
+import { FlatList, RefreshControl, StyleSheet } from 'react-native';
 import { Screen } from 'components/Screen';
+import { HeaderFilter } from 'components/HeaderFilter';
 import { ListItemStock } from 'components/ListItemStock';
 import { api } from 'config/network';
-import { ListContainer } from './styles';
+import { AddStockButton, ListContainer } from './styles';
+import { palette } from 'config/theme';
 
 export default class StockListScreen extends Component {
   state = {
-    companies: []
+    companies: [],
+    refreshing: false
   };
 
-  async componentDidMount() {
+  getStocks = async () => {
     const resp = await api.get('/stocks');
-    this.setState({ companies: resp.data });
-  }
+    this.setState({ companies: resp.data, refreshing: false });
+  };
+
+  _onRefresh = () => {
+    this.setState({ refreshing: true }, this.getStocks);
+  };
 
   _keyExtractor = item => item.company.symbol;
+
+  async componentDidMount() {
+    await this.getStocks();
+  }
 
   render() {
     return (
       <Screen>
+        <HeaderFilter />
         <ListContainer>
           <FlatList
             data={this.state.companies}
             contentContainerStyle={s.listContainer}
             indicatorStyle="white"
+            refreshControl={
+              <RefreshControl
+                refreshing={this.state.refreshing}
+                onRefresh={this._onRefresh}
+                colors={[palette.green]}
+                progressBackgroundColor={palette.secondaryDark}
+                tintColor={palette.green}
+              />
+            }
             renderItem={({ item }) => (
               <ListItemStock
                 companyName={item.company.name}
@@ -39,6 +60,11 @@ export default class StockListScreen extends Component {
             keyExtractor={this._keyExtractor}
           />
         </ListContainer>
+        <AddStockButton
+          icon="add"
+          color={palette.primaryAccent}
+          onPress={() => {}}
+        />
       </Screen>
     );
   }

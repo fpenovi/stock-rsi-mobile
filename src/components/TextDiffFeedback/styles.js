@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+import { Text } from 'react-native-paper';
 
 export const Container = styled.View`
   flex-direction: row;
@@ -7,6 +8,6 @@ export const Container = styled.View`
   align-items: center;
 `;
 
-export const DiffText = styled.Text`
+export const DiffText = styled(Text)`
   color: ${({ decreased, theme }) => (decreased ? theme.red : theme.green)};
 `;

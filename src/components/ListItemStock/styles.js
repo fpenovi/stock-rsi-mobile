@@ -1,9 +1,9 @@
 import styled from 'styled-components/native';
+import { Text, Surface } from 'react-native-paper';
 import { TextLastUpdated } from 'components/TextLastUpdated';
 import { TextDiffFeedback } from 'components/TextDiffFeedback';
 
-export const Card = styled.View`
-  background-color: ${({ theme }) => theme.primaryDark};
+export const Card = styled(Surface)`
   margin-vertical: 4;
   margin-horizontal: 5;
   padding-top: 6;
@@ -47,20 +47,20 @@ export const StockPrice = styled.View`
   justify-content: space-evenly;
 `;
 
-export const CompanyName = styled.Text`
+export const CompanyName = styled(Text)`
   color: ${({ theme }) => theme.primaryAccent};
   font-weight: bold;
   font-size: 16;
   flex-wrap: wrap;
 `;
 
-export const CompanySymbol = styled.Text`
+export const CompanySymbol = styled(Text)`
   color: ${({ theme }) => theme.secondaryAccent};
   font-size: 14;
   letter-spacing: 1;
 `;
 
-export const RsiText = styled.Text`
+export const RsiText = styled(Text)`
   color: ${({ theme, lowerLimit, upperLimit, children }) => {
     if (children <= lowerLimit) return theme.red;
     if (children >= upperLimit) return theme.green;
@@ -70,7 +70,7 @@ export const RsiText = styled.Text`
   font-weight: bold;
 `;
 
-export const SecondaryText = styled.Text`
+export const SecondaryText = styled(Text)`
   color: ${({ theme }) => theme.primaryAccent};
   font-size: 13;
 `;

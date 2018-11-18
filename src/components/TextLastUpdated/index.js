@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { StyledText } from './styles';
 
 const SECOND = 1000;
 const MINUTE = SECOND * 60;
@@ -25,5 +25,5 @@ export const TextLastUpdated = ({ date, style }) => {
     result = `${seconds > 9 ? `${seconds} seconds ago` : result}`;
   }
 
-  return <Text style={style}>{result}</Text>;
+  return <StyledText style={style}>{result}</StyledText>;
 };
