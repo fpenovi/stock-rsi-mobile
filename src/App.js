@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { ThemeProvider } from 'styled-components/native';
+import { Provider as PaperProvider } from 'react-native-paper';
 import { StackNavigator } from 'navigation/StackNavigator';
-import theme from 'config/theme';
+import theme, { paperTheme } from 'config/theme';
 import env from 'react-native-config';
 
 export default class App extends Component {
@@ -10,9 +11,13 @@ export default class App extends Component {
   }
 
   render() {
+    console.log(paperTheme);
+
     return (
       <ThemeProvider theme={theme}>
-        <StackNavigator />
+        <PaperProvider theme={paperTheme}>
+          <StackNavigator />
+        </PaperProvider>
       </ThemeProvider>
     );
   }

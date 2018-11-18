@@ -1,3 +1,5 @@
+import { Platform } from 'react-native';
+
 export const palette = {
   primaryAccent: '#FFFFFF',
   secondaryAccent: '#7a909b',
@@ -21,6 +23,31 @@ export const iconSizesNS = {
  * @returns {*}
  */
 export const s = dp => dp;
+
+const isIOS = Platform.OS === 'ios';
+
+const fonts = {
+  regular: isIOS ? 'Helvetica Neue' : 'sans-serif',
+  medium: isIOS ? 'HelveticaNeue-Medium' : 'sans-serif-medium',
+  light: isIOS ? 'HelveticaNeue-Light' : 'sans-serif-light',
+  thin: isIOS ? 'HelveticaNeue-Thin' : 'sans-serif-thin'
+};
+
+export const paperTheme = {
+  dark: true,
+  roundness: 5,
+  colors: {
+    primary: palette.terciaryDark,
+    accent: palette.primaryAccent,
+    background: palette.secondaryDark,
+    surface: palette.primaryDark,
+    text: palette.primaryAccent,
+    disabled: palette.secondaryDark,
+    placeholder: palette.secondaryAccent,
+    backdrop: 'rgba(0, 0, 0, 0.5)'
+  },
+  fonts
+};
 
 export default {
   ...palette,
