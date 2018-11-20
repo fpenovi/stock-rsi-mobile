@@ -7,7 +7,7 @@ import env from 'react-native-config';
 
 export default class App extends Component {
   componentDidMount() {
-    console.warn(`THIS IS ${env.NAME} ENVIRONMENT`);
+    // console.warn(`THIS IS ${env.NAME} ENVIRONMENT`);
   }
 
   render() {

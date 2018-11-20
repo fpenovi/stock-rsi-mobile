@@ -10,19 +10,30 @@ import { palette } from 'config/theme';
 export default class StockListScreen extends Component {
   state = {
     companies: [],
-    refreshing: false
+    refreshing: false,
+    isFetching: false
+  };
+
+  unstructureStock = stock => {
+    const { company, ...rest } = stock;
+    return { ...company, ...rest };
   };
 
   getStocks = async () => {
+    this.setState({ isFetching: true });
     const resp = await api.get('/stocks');
-    this.setState({ companies: resp.data, refreshing: false });
+    this.setState({
+      companies: resp.data.map(this.unstructureStock),
+      isFetching: false,
+      refreshing: false
+    });
   };
 
   _onRefresh = () => {
     this.setState({ refreshing: true }, this.getStocks);
   };
 
-  _keyExtractor = item => item.company.symbol;
+  _keyExtractor = item => item.symbol;
 
   async componentDidMount() {
     await this.getStocks();
@@ -31,7 +42,7 @@ export default class StockListScreen extends Component {
   render() {
     return (
       <Screen>
-        <HeaderFilter />
+        <HeaderFilter stocks={this.state.companies} />
         <ListContainer>
           <FlatList
             data={this.state.companies}
@@ -48,23 +59,25 @@ export default class StockListScreen extends Component {
             }
             renderItem={({ item }) => (
               <ListItemStock
-                companyName={item.company.name}
-                symbol={item.company.symbol}
+                companyName={item.name}
+                symbol={item.symbol}
                 rsi={item.indicator}
                 price={item.price}
                 diff={item.diff}
                 lastUpdated={item.lastUpdated}
-                error={item.error}
+                error={!!item.error}
               />
             )}
             keyExtractor={this._keyExtractor}
           />
         </ListContainer>
-        <AddStockButton
-          icon="add"
-          color={palette.primaryAccent}
-          onPress={() => {}}
-        />
+        {!this.state.isFetching && (
+          <AddStockButton
+            icon="add"
+            color={palette.primaryAccent}
+            onPress={() => {}}
+          />
+        )}
       </Screen>
     );
   }
