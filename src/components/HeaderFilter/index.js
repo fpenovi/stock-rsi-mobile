@@ -1,15 +1,17 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Platform, Keyboard, View } from 'react-native';
+import { Platform, Keyboard, View, LayoutAnimation } from 'react-native';
+import { IconButton, Text } from 'react-native-paper';
+import { FlexibleAnimation } from './animations';
 import {
   HideableContainer,
   FlexibleContainer,
   SearchBar,
   OrderingContainer,
   BackButton,
-  OrderOptionsContainer
+  OrderOptionsContainer,
+  OptionWrapper
 } from './styles';
-import { IconButton, Text } from 'react-native-paper';
 
 const MODES = [0, 1];
 const [SEARCH, ORDER] = MODES;
@@ -25,18 +27,30 @@ export class HeaderFilter extends PureComponent {
     this.state = {
       search: '',
       mode: SEARCH,
-      ordering: 'companyName'
+      ordering: 'companyName',
+      ascending: true
     };
   }
 
   toggleMode = () => {
+    LayoutAnimation.configureNext(FlexibleAnimation);
     this.setState(
       { mode: (this.state.mode + 1) % MODES.length },
       Keyboard.dismiss
     );
   };
 
-  updateSearch = search => this.setState({ search });
+  updateSearch = queryString => {
+    const subset = this.props.stocks.filter(stock => {
+      const qs = queryString.toLowerCase();
+      return (
+        stock.symbol.toLowerCase().includes(qs) ||
+        stock.name.toLowerCase().includes(qs)
+      );
+    });
+
+    this.setState({ search: queryString }, this.props.onFilterApplied(subset));
+  };
 
   render() {
     const { mode } = this.state;
@@ -59,10 +73,10 @@ export class HeaderFilter extends PureComponent {
           <BackButton icon={BACK_BTN} onPress={this.toggleMode} />
           <OrderOptionsContainer>
             {this.props.stocks[0] &&
-              Object.keys(this.props.stocks[0]).map(k => (
-                <View key={k} style={{ width: `${100 / 2}%` }}>
+              Object.keys(this.props.stocks[0]).map((k, i) => (
+                <OptionWrapper key={k} i={i}>
                   <Text>{k}</Text>
-                </View>
+                </OptionWrapper>
               ))}
           </OrderOptionsContainer>
         </OrderingContainer>
@@ -82,5 +96,6 @@ HeaderFilter.propTypes = {
       lastUpdated: PropTypes.string.isRequired,
       error: PropTypes.bool
     })
-  ).isRequired
+  ).isRequired,
+  onFilterApplied: PropTypes.func.isRequired
 };

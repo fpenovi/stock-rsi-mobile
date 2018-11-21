@@ -10,6 +10,7 @@ import { palette } from 'config/theme';
 export default class StockListScreen extends Component {
   state = {
     companies: [],
+    filtered: [],
     refreshing: false,
     isFetching: false
   };
@@ -22,8 +23,10 @@ export default class StockListScreen extends Component {
   getStocks = async () => {
     this.setState({ isFetching: true });
     const resp = await api.get('/stocks');
+    const companies = resp.data.map(this.unstructureStock);
     this.setState({
-      companies: resp.data.map(this.unstructureStock),
+      companies,
+      filtered: companies,
       isFetching: false,
       refreshing: false
     });
@@ -35,6 +38,8 @@ export default class StockListScreen extends Component {
 
   _keyExtractor = item => item.symbol;
 
+  updateStocks = newDataState => this.setState({ filtered: newDataState });
+
   async componentDidMount() {
     await this.getStocks();
   }
@@ -42,10 +47,13 @@ export default class StockListScreen extends Component {
   render() {
     return (
       <Screen>
-        <HeaderFilter stocks={this.state.companies} />
+        <HeaderFilter
+          stocks={this.state.companies}
+          onFilterApplied={this.updateStocks}
+        />
         <ListContainer>
           <FlatList
-            data={this.state.companies}
+            data={this.state.filtered}
             contentContainerStyle={s.listContainer}
             indicatorStyle="white"
             refreshControl={
