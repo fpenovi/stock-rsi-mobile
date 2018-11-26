@@ -24,11 +24,6 @@ export const OrderOptionsContainer = styled.View`
   flex-wrap: wrap;
 `;
 
-export const OptionWrapper = styled.View`
-  width: ${100 / 2}%
-  align-items: ${({ i }) => (i % 2 === 0 ? 'flex-start' : 'flex-end')};
-`;
-
 export const SearchBar = styled(Searchbar)`
   flex: 1;
   border-radius: 0;

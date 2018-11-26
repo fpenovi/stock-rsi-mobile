@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Platform, Keyboard, View, LayoutAnimation } from 'react-native';
-import { IconButton, Text } from 'react-native-paper';
+import { Platform, Keyboard, LayoutAnimation } from 'react-native';
+import { IconButton } from 'react-native-paper';
+import { ButtonSortGroup } from 'components/ButtonSortGroup';
 import { FlexibleAnimation } from './animations';
 import {
   HideableContainer,
@@ -9,9 +10,10 @@ import {
   SearchBar,
   OrderingContainer,
   BackButton,
-  OrderOptionsContainer,
-  OptionWrapper
+  OrderOptionsContainer
 } from './styles';
+import MAPPINGS from './attributeMappings';
+import { sortStocks } from './helpers';
 
 const MODES = [0, 1];
 const [SEARCH, ORDER] = MODES;
@@ -27,9 +29,11 @@ export class HeaderFilter extends PureComponent {
     this.state = {
       search: '',
       mode: SEARCH,
-      ordering: 'companyName',
-      ascending: true
+      ordering: 'name',
+      orderingMode: 1
     };
+
+    this.attributes = [];
   }
 
   toggleMode = () => {
@@ -40,7 +44,11 @@ export class HeaderFilter extends PureComponent {
     );
   };
 
-  updateSearch = queryString => {
+  orderChange = (ordering, orderingMode) => {
+    this.updateSearch(this.state.search, ordering, orderingMode);
+  };
+
+  updateSearch = (queryString, ordering, orderingMode) => {
     const subset = this.props.stocks.filter(stock => {
       const qs = queryString.toLowerCase();
       return (
@@ -49,11 +57,34 @@ export class HeaderFilter extends PureComponent {
       );
     });
 
-    this.setState({ search: queryString }, this.props.onFilterApplied(subset));
+    // If not supplied, keep the same
+    if (!ordering) {
+      ordering = this.state.ordering;
+      orderingMode = this.state.orderingMode;
+    }
+
+    console.warn(ordering, orderingMode);
+
+    this.setState(
+      { search: queryString, ordering, orderingMode },
+      this.props.onFilterApplied(
+        subset.sort(sortStocks(orderingMode, ordering))
+      )
+    );
+  };
+
+  setAttributes = () => {
+    if (this.attributes.length === 0 && this.props.stocks.length > 0) {
+      this.attributes = Object.keys(this.props.stocks[0]).map(attr => ({
+        name: attr,
+        displayName: MAPPINGS[attr]
+      }));
+    }
   };
 
   render() {
     const { mode } = this.state;
+    this.setAttributes();
 
     return (
       <FlexibleContainer>
@@ -72,12 +103,11 @@ export class HeaderFilter extends PureComponent {
         <OrderingContainer show={mode === ORDER}>
           <BackButton icon={BACK_BTN} onPress={this.toggleMode} />
           <OrderOptionsContainer>
-            {this.props.stocks[0] &&
-              Object.keys(this.props.stocks[0]).map((k, i) => (
-                <OptionWrapper key={k} i={i}>
-                  <Text>{k}</Text>
-                </OptionWrapper>
-              ))}
+            <ButtonSortGroup
+              attributes={this.attributes}
+              orderingBy={this.state.ordering}
+              onOrderChange={this.orderChange}
+            />
           </OrderOptionsContainer>
         </OrderingContainer>
       </FlexibleContainer>

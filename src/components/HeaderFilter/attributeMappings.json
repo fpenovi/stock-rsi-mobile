@@ -1,0 +1,8 @@
+{
+  "name": "Name",
+  "symbol": "Symbol",
+  "indicator": "RSI",
+  "price": "Stock price",
+  "diff": "Price variance",
+  "lastUpdated": "Last Updated"
+}
