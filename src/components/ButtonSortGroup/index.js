@@ -10,11 +10,13 @@ export class ButtonSortGroup extends PureComponent {
     super(props);
     this.state = {
       orderingBy: props.orderingBy,
-      mode: 0
+      mode: null
     };
   }
 
-  getNextMode = current => (current + 1) % MODES.length;
+  getNextMode = current => {
+    return current === null ? 0 : (current + 1) % MODES.length;
+  };
 
   onSortPress = attrName => () => {
     const { orderingBy, mode } = this.state;
@@ -26,8 +28,8 @@ export class ButtonSortGroup extends PureComponent {
       );
     }
 
-    this.setState({ orderingBy: attrName, mode: MODES[0] }, () =>
-      this.props.onOrderChange(attrName, MODES[0])
+    this.setState({ orderingBy: attrName, mode: 0 }, () =>
+      this.props.onOrderChange(attrName, MODES[this.state.mode])
     );
   };
 
@@ -41,7 +43,7 @@ export class ButtonSortGroup extends PureComponent {
             <ButtonSort
               text={k.displayName}
               onPress={this.onSortPress(k.name)}
-              order={orderingBy === k.name ? MODES[mode] : 0}
+              order={orderingBy === k.name ? MODES[mode] : null}
             />
           </OptionWrapper>
         ))}

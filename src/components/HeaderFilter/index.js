@@ -29,8 +29,7 @@ export class HeaderFilter extends PureComponent {
     this.state = {
       search: '',
       mode: SEARCH,
-      ordering: 'name',
-      orderingMode: 1
+      ordering: ''
     };
 
     this.attributes = [];
@@ -60,10 +59,7 @@ export class HeaderFilter extends PureComponent {
     // If not supplied, keep the same
     if (!ordering) {
       ordering = this.state.ordering;
-      orderingMode = this.state.orderingMode;
     }
-
-    console.warn(ordering, orderingMode);
 
     this.setState(
       { search: queryString, ordering, orderingMode },
