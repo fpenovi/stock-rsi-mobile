@@ -12,8 +12,9 @@ import {
   BackButton,
   OrderOptionsContainer
 } from './styles';
-import MAPPINGS from './attributeMappings';
 import { sortStocks } from './helpers';
+import MAPPINGS from './attributeMappings';
+import SORT_ORDER from './attributeOrder';
 
 const MODES = [0, 1];
 const [SEARCH, ORDER] = MODES;
@@ -73,12 +74,20 @@ export class HeaderFilter extends PureComponent {
 
   setAttributes = () => {
     if (this.attributes.length === 0 && this.props.stocks.length > 0) {
-      this.attributes = Object.keys(this.props.stocks[0]).map(attr => ({
-        name: attr,
-        displayName: MAPPINGS[attr]
-      }));
+      this.attributes = Object.keys(this.props.stocks[0])
+        .sort((a, b) => SORT_ORDER[a] - SORT_ORDER[b])
+        .map(attr => ({
+          name: attr,
+          displayName: MAPPINGS[attr]
+        }));
     }
   };
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.stocks !== this.props.stocks) {
+      this.setState({ search: '', ordering: '', orderingMode: null });
+    }
+  }
 
   render() {
     const { mode } = this.state;
@@ -104,6 +113,7 @@ export class HeaderFilter extends PureComponent {
             <ButtonSortGroup
               attributes={this.attributes}
               orderingBy={this.state.ordering}
+              mode={this.state.orderingMode}
               onOrderChange={this.orderChange}
             />
           </OrderOptionsContainer>

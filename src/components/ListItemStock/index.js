@@ -16,6 +16,8 @@ import {
 } from './styles';
 
 export class ListItemStock extends PureComponent {
+  static getItemHeight = () => 85;
+
   render() {
     const {
       companyName,

@@ -36,7 +36,25 @@ export default class StockListScreen extends Component {
     this.setState({ refreshing: true }, this.getStocks);
   };
 
+  _renderItem = ({ item }) => (
+    <ListItemStock
+      companyName={item.name}
+      symbol={item.symbol}
+      rsi={item.indicator}
+      price={item.price}
+      diff={item.diff}
+      lastUpdated={item.lastUpdated}
+      error={!!item.error}
+    />
+  );
+
   _keyExtractor = item => item.symbol;
+
+  _itemLayout = (data, index) => ({
+    length: ListItemStock.getItemHeight(),
+    offset: ListItemStock.getItemHeight() * index,
+    index
+  });
 
   updateStocks = newDataState => this.setState({ filtered: newDataState });
 
@@ -55,7 +73,7 @@ export default class StockListScreen extends Component {
           <FlatList
             data={this.state.filtered}
             contentContainerStyle={s.listContainer}
-            indicatorStyle="white"
+            indicatorStyle={palette.primaryAccent}
             refreshControl={
               <RefreshControl
                 refreshing={this.state.refreshing}
@@ -65,18 +83,10 @@ export default class StockListScreen extends Component {
                 tintColor={palette.green}
               />
             }
-            renderItem={({ item }) => (
-              <ListItemStock
-                companyName={item.name}
-                symbol={item.symbol}
-                rsi={item.indicator}
-                price={item.price}
-                diff={item.diff}
-                lastUpdated={item.lastUpdated}
-                error={!!item.error}
-              />
-            )}
+            renderItem={this._renderItem}
             keyExtractor={this._keyExtractor}
+            getItemLayout={this._itemLayout}
+            removeClippedSubviews
           />
         </ListContainer>
         {!this.state.isFetching && (

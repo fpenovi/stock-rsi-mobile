@@ -3,38 +3,31 @@ import PropTypes from 'prop-types';
 import { ButtonSort } from 'components/ButtonSort';
 import { OptionWrapper } from './styles';
 
-const MODES = [1, -1];
+const MODES = [1, -1, null];
+const [ASC, DESC, NO_SORT] = MODES;
 
 export class ButtonSortGroup extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      orderingBy: props.orderingBy,
-      mode: null
-    };
-  }
-
   getNextMode = current => {
-    return current === null ? 0 : (current + 1) % MODES.length;
+    switch (current) {
+      case ASC:
+        return DESC;
+      default:
+        return ASC;
+    }
   };
 
   onSortPress = attrName => () => {
-    const { orderingBy, mode } = this.state;
+    const { orderingBy, mode } = this.props;
+    const newMode = this.getNextMode(mode);
 
-    if (attrName === orderingBy) {
-      const newMode = this.getNextMode(mode);
-      return this.setState({ mode: newMode }, () =>
-        this.props.onOrderChange(orderingBy, MODES[newMode])
-      );
-    }
+    if (attrName === orderingBy)
+      return this.props.onOrderChange(orderingBy, newMode);
 
-    this.setState({ orderingBy: attrName, mode: 0 }, () =>
-      this.props.onOrderChange(attrName, MODES[this.state.mode])
-    );
+    this.props.onOrderChange(attrName, ASC);
   };
 
   render() {
-    const { mode, orderingBy } = this.state;
+    const { mode, orderingBy } = this.props;
 
     return (
       <>
@@ -43,7 +36,7 @@ export class ButtonSortGroup extends PureComponent {
             <ButtonSort
               text={k.displayName}
               onPress={this.onSortPress(k.name)}
-              order={orderingBy === k.name ? MODES[mode] : null}
+              order={orderingBy === k.name ? mode : NO_SORT}
             />
           </OptionWrapper>
         ))}
@@ -64,5 +57,6 @@ ButtonSortGroup.propTypes = {
 };
 
 ButtonSortGroup.defaultProps = {
-  orderingBy: ''
+  orderingBy: '',
+  mode: null
 };
