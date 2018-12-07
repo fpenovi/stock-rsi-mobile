@@ -75,6 +75,7 @@ export class HeaderFilter extends PureComponent {
   setAttributes = () => {
     if (this.attributes.length === 0 && this.props.stocks.length > 0) {
       this.attributes = Object.keys(this.props.stocks[0])
+        .filter(attr => attr !== 'error')
         .sort((a, b) => SORT_ORDER[a] - SORT_ORDER[b])
         .map(attr => ({
           name: attr,

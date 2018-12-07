@@ -86,6 +86,7 @@ export default class StockListScreen extends Component {
             renderItem={this._renderItem}
             keyExtractor={this._keyExtractor}
             getItemLayout={this._itemLayout}
+            initialNumToRender={10}
             removeClippedSubviews
           />
         </ListContainer>
