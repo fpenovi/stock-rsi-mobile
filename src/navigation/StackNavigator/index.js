@@ -7,6 +7,7 @@ import {
   headerTintColor,
   headerTitleContainerStyle
 } from './styles';
+import { AddNewStockScreen } from 'screens/AddNewStockScreen';
 
 const stackConfig = {
   initialRouteName: routes.TAB_NAVIGATOR,
@@ -21,7 +22,14 @@ const stackConfig = {
 
 export const StackNavigator = createStackNavigator(
   {
-    [routes.TAB_NAVIGATOR]: TabNavigator
+    [routes.TAB_NAVIGATOR]: { screen: TabNavigator },
+    [routes.ADD_NEW_STOCK_SCREEN]: {
+      screen: AddNewStockScreen,
+      navigationOptions: {
+        title: 'Subscribe to new symbol',
+        headerRight: <></>
+      }
+    }
   },
   stackConfig
 );

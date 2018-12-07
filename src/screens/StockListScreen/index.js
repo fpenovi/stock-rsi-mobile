@@ -6,6 +6,7 @@ import { ListItemStock } from 'components/ListItemStock';
 import { api } from 'config/network';
 import { AddStockButton, ListContainer } from './styles';
 import { palette } from 'config/theme';
+import { routes } from 'navigation/routes';
 
 export default class StockListScreen extends Component {
   state = {
@@ -94,7 +95,9 @@ export default class StockListScreen extends Component {
           <AddStockButton
             icon="add"
             color={palette.primaryAccent}
-            onPress={() => {}}
+            onPress={() =>
+              this.props.navigation.navigate(routes.ADD_NEW_STOCK_SCREEN)
+            }
           />
         )}
       </Screen>
