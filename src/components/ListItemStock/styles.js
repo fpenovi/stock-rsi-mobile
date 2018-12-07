@@ -62,8 +62,8 @@ export const CompanySymbol = styled(Text)`
 
 export const RsiText = styled(Text)`
   color: ${({ theme, lowerLimit, upperLimit, children }) => {
-    if (children <= lowerLimit) return theme.red;
-    if (children >= upperLimit) return theme.green;
+    if (children <= lowerLimit) return theme.green;
+    if (children >= upperLimit) return theme.red;
     return theme.secondaryAccent;
   }};
   font-size: 20;
