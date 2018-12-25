@@ -4,9 +4,8 @@ import { Screen } from 'components/Screen';
 import { HeaderFilter } from 'components/HeaderFilter';
 import { ListItemStock } from 'components/ListItemStock';
 import { api } from 'config/network';
-import { AddStockButton, ListContainer } from './styles';
+import { ListContainer } from './styles';
 import { palette } from 'config/theme';
-import { routes } from 'navigation/routes';
 
 export default class StockListScreen extends Component {
   state = {
@@ -91,15 +90,6 @@ export default class StockListScreen extends Component {
             removeClippedSubviews
           />
         </ListContainer>
-        {!this.state.isFetching && (
-          <AddStockButton
-            icon="add"
-            color={palette.primaryAccent}
-            onPress={() =>
-              this.props.navigation.navigate(routes.ADD_NEW_STOCK_SCREEN)
-            }
-          />
-        )}
       </Screen>
     );
   }
