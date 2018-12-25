@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FlatList, RefreshControl, StyleSheet } from 'react-native';
+import { FlatList, RefreshControl, Platform, StyleSheet } from 'react-native';
 import { Screen } from 'components/Screen';
 import { HeaderFilter } from 'components/HeaderFilter';
 import { ListItemStock } from 'components/ListItemStock';
@@ -73,7 +73,10 @@ export default class StockListScreen extends Component {
           <FlatList
             data={this.state.filtered}
             contentContainerStyle={s.listContainer}
-            indicatorStyle={palette.primaryAccent}
+            indicatorStyle={Platform.select({
+              ios: 'white',
+              android: palette.primaryAccent
+            })}
             refreshControl={
               <RefreshControl
                 refreshing={this.state.refreshing}
