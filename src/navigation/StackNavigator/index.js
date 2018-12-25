@@ -26,7 +26,7 @@ export const StackNavigator = createStackNavigator(
     [routes.ADD_NEW_STOCK_SCREEN]: {
       screen: AddNewStockScreen,
       navigationOptions: {
-        title: 'Subscribe to new symbol',
+        title: 'Add new symbol',
         headerRight: <></>
       }
     }

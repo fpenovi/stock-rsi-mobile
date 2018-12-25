@@ -4,6 +4,7 @@ import ConfigurationScreen from 'screens/ConfigurationScreen';
 import { createBottomTabNavigator } from 'react-navigation';
 import { createTabIcon } from './TabIcon';
 import { style, activeTintColor, inactiveTintColor } from './styles';
+import { configureTabsHeaders } from './tabsOptions';
 import { routes } from 'navigation/routes';
 
 const tabConfig = {
@@ -33,3 +34,5 @@ export const TabNavigator = createBottomTabNavigator(
   },
   tabConfig
 );
+
+TabNavigator.navigationOptions = navObjects => configureTabsHeaders(navObjects);
