@@ -1,6 +1,7 @@
 import React from 'react';
-import { IconButton } from 'react-native-paper';
-import { iconSizesNS } from 'config/theme';
+import TouchableItem from 'react-navigation/src/views/TouchableItem';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import { palette } from 'config/theme';
 import { routes } from 'navigation/routes';
 
 const tabsOptions = {
@@ -8,12 +9,13 @@ const tabsOptions = {
     headerTitle: 'Stocks',
     headerLeft: <></>,
     headerRight: (
-      <IconButton
-        icon="add"
+      <TouchableItem
+        borderless
         delayPressIn={0}
         onPress={() => navigation.navigate(routes.ADD_NEW_STOCK_SCREEN)}
-        size={iconSizesNS.lg}
-      />
+        style={{ marginRight: 8 }}>
+        <Icon name="add" color={palette.primaryAccent} size={30} />
+      </TouchableItem>
     )
   }),
   [routes.CONFIGURATION_SCREEN]: () => ({ headerTitle: 'Configuration' })
