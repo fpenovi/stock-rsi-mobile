@@ -12,9 +12,6 @@ import {
   BackButton,
   OrderOptionsContainer
 } from './styles';
-import { sortStocks } from './helpers';
-import MAPPINGS from './attributeMappings';
-import SORT_ORDER from './attributeOrder';
 
 const MODES = [0, 1];
 const [SEARCH, ORDER] = MODES;
@@ -24,18 +21,7 @@ const BACK_BTN = Platform.select({
 });
 
 export class HeaderFilter extends PureComponent {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      search: '',
-      mode: SEARCH,
-      ordering: '',
-      orderingMode: null
-    };
-
-    this.attributes = [];
-  }
+  state = { mode: SEARCH };
 
   toggleMode = () => {
     LayoutAnimation.configureNext(FlexibleAnimation);
@@ -46,53 +32,16 @@ export class HeaderFilter extends PureComponent {
   };
 
   orderChange = (ordering, orderingMode) => {
-    this.updateSearch(this.state.search, ordering, orderingMode);
+    this.updateSearch(this.props.filterBy, ordering, orderingMode);
   };
 
-  updateSearch = (queryString, ordering, orderingMode) => {
-    const subset = this.props.stocks.filter(stock => {
-      const qs = queryString.toLowerCase();
-      return (
-        stock.symbol.toLowerCase().includes(qs) ||
-        stock.name.toLowerCase().includes(qs)
-      );
-    });
-
-    // If not supplied, keep the same
-    if (!ordering) {
-      ordering = this.state.ordering;
-      orderingMode = this.state.orderingMode;
-    }
-
-    this.setState(
-      { search: queryString, ordering, orderingMode },
-      this.props.onFilterApplied(
-        subset.sort(sortStocks(orderingMode, ordering))
-      )
-    );
+  updateSearch = queryString => {
+    const { onFilterApplied, orderingBy, orderingMode } = this.props;
+    onFilterApplied(queryString, orderingBy, orderingMode);
   };
-
-  setAttributes = () => {
-    if (this.attributes.length === 0 && this.props.stocks.length > 0) {
-      this.attributes = Object.keys(this.props.stocks[0])
-        .filter(attr => attr !== 'error')
-        .sort((a, b) => SORT_ORDER[a] - SORT_ORDER[b])
-        .map(attr => ({
-          name: attr,
-          displayName: MAPPINGS[attr]
-        }));
-    }
-  };
-
-  componentDidUpdate(prevProps, prevState) {
-    if (prevProps.stocks !== this.props.stocks) {
-      this.setState({ search: '', ordering: '', orderingMode: null });
-    }
-  }
 
   render() {
     const { mode } = this.state;
-    this.setAttributes();
 
     return (
       <FlexibleContainer>
@@ -100,7 +49,7 @@ export class HeaderFilter extends PureComponent {
           <SearchBar
             placeholder="Search names or symbols"
             onChangeText={this.updateSearch}
-            value={this.state.search}
+            value={this.props.filterBy}
           />
           <IconButton
             icon="filter-list"
@@ -112,9 +61,9 @@ export class HeaderFilter extends PureComponent {
           <BackButton icon={BACK_BTN} onPress={this.toggleMode} />
           <OrderOptionsContainer>
             <ButtonSortGroup
-              attributes={this.attributes}
-              orderingBy={this.state.ordering}
-              mode={this.state.orderingMode}
+              attributes={this.props.attributes}
+              orderingBy={this.props.orderingBy}
+              mode={this.props.orderingMode}
               onOrderChange={this.orderChange}
             />
           </OrderOptionsContainer>
@@ -125,16 +74,14 @@ export class HeaderFilter extends PureComponent {
 }
 
 HeaderFilter.propTypes = {
-  stocks: PropTypes.arrayOf(
+  attributes: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string.isRequired,
-      symbol: PropTypes.string.isRequired,
-      indicator: PropTypes.number.isRequired,
-      price: PropTypes.number.isRequired,
-      diff: PropTypes.number.isRequired,
-      lastUpdated: PropTypes.string.isRequired,
-      error: PropTypes.bool
+      displayName: PropTypes.string.isRequired
     })
   ).isRequired,
+  filterBy: PropTypes.string.isRequired,
+  orderingBy: PropTypes.string.isRequired,
+  orderingMode: PropTypes.number.isRequired,
   onFilterApplied: PropTypes.func.isRequired
 };
