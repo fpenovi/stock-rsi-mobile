@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
+import Informer from 'components/Informer';
 import { FlatList, RefreshControl, Platform, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { Screen } from 'components/Screen';
 import { HeaderFilter } from 'components/HeaderFilter';
 import { ListItemStock } from 'components/ListItemStock';
+import { ErrorUnrecoverable } from 'components/ErrorUnrecoverable';
 import { getAllStocks, modifyStocksFilters } from 'actions/stocks';
 import { ListContainer } from './styles';
 import { palette } from 'config/theme';
@@ -51,42 +53,61 @@ class StockListScreen extends Component {
     this.props.getAllStocks();
   }
 
+  componentDidUpdate(prevProps) {
+    const { error } = this.props;
+    if (prevProps.companies.length && !prevProps.error && error) {
+      Informer.inform('Failed to update. Check your connection.');
+    }
+  }
+
   render() {
+    const showError = this.props.error && !this.props.companies.length;
     this.attributes = this.getOrderedAttributes(this.props.companies);
 
     return (
       <Screen>
-        <HeaderFilter
-          attributes={this.attributes}
-          filterBy={this.props.filterBy}
-          orderingBy={this.props.orderingBy}
-          orderingMode={this.props.orderingMode}
-          onFilterApplied={this.updateStocks}
-        />
-        <ListContainer>
-          <FlatList
-            data={this.props.companies}
-            contentContainerStyle={s.listContainer}
-            indicatorStyle={Platform.select({
-              ios: 'white',
-              android: palette.primaryAccent
-            })}
-            refreshControl={
-              <RefreshControl
-                refreshing={this.props.isFetching}
-                onRefresh={this.props.getAllStocks}
-                colors={[palette.green]}
-                progressBackgroundColor={palette.secondaryDark}
-                tintColor={palette.green}
+        {!showError ? (
+          <>
+            <HeaderFilter
+              attributes={this.attributes}
+              filterBy={this.props.filterBy}
+              orderingBy={this.props.orderingBy}
+              orderingMode={this.props.orderingMode}
+              onFilterApplied={this.updateStocks}
+            />
+            <ListContainer>
+              <FlatList
+                data={this.props.companies}
+                contentContainerStyle={s.listContainer}
+                indicatorStyle={Platform.select({
+                  ios: 'white',
+                  android: palette.primaryAccent
+                })}
+                refreshControl={
+                  <RefreshControl
+                    refreshing={this.props.isFetching}
+                    onRefresh={this.props.getAllStocks}
+                    colors={[palette.green]}
+                    progressBackgroundColor={palette.secondaryDark}
+                    tintColor={palette.green}
+                  />
+                }
+                renderItem={this._renderItem}
+                keyExtractor={this._keyExtractor}
+                getItemLayout={this._itemLayout}
+                initialNumToRender={10}
+                removeClippedSubviews
               />
-            }
-            renderItem={this._renderItem}
-            keyExtractor={this._keyExtractor}
-            getItemLayout={this._itemLayout}
-            initialNumToRender={10}
-            removeClippedSubviews
+            </ListContainer>
+          </>
+        ) : (
+          <ErrorUnrecoverable
+            message={`Could not establish connection with server. Make sure you have access to Internet.`}
+            retryMessage="Tap below to Retry"
+            isFetching={this.props.isFetching}
+            onRetry={this.props.getAllStocks}
           />
-        </ListContainer>
+        )}
       </Screen>
     );
   }
@@ -98,10 +119,11 @@ const s = StyleSheet.create({
 
 const mapStateToProps = ({ stocks }) => ({
   companies: stocks.list,
-  isFetching: stocks.isFetching,
   filterBy: stocks.filterBy,
   orderingBy: stocks.orderingBy,
-  orderingMode: stocks.orderingMode
+  orderingMode: stocks.orderingMode,
+  isFetching: stocks.isFetching,
+  error: stocks.error
 });
 
 export default connect(
