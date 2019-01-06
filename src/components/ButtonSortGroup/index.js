@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { ButtonSort } from 'components/ButtonSort';
 import { OptionWrapper } from './styles';
 
-const MODES = [1, -1, null];
+const MODES = [1, -1, 0];
 const [ASC, DESC, NO_SORT] = MODES;
 
 export class ButtonSortGroup extends PureComponent {
@@ -46,7 +46,8 @@ export class ButtonSortGroup extends PureComponent {
 }
 
 ButtonSortGroup.propTypes = {
-  orderingBy: PropTypes.string,
+  orderingBy: PropTypes.string.isRequired,
+  mode: PropTypes.number.isRequired,
   attributes: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string.isRequired,
@@ -54,9 +55,4 @@ ButtonSortGroup.propTypes = {
     })
   ).isRequired,
   onOrderChange: PropTypes.func.isRequired
-};
-
-ButtonSortGroup.defaultProps = {
-  orderingBy: '',
-  mode: null
 };

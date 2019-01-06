@@ -31,8 +31,9 @@ export class HeaderFilter extends PureComponent {
     );
   };
 
-  orderChange = (ordering, orderingMode) => {
-    this.updateSearch(this.props.filterBy, ordering, orderingMode);
+  orderChange = (orderingBy, orderingMode) => {
+    const { onFilterApplied, filterBy } = this.props;
+    onFilterApplied(filterBy, orderingBy, orderingMode);
   };
 
   updateSearch = queryString => {
