@@ -1,7 +1,11 @@
 import { handleActions } from 'redux-actions';
 import { isError } from 'flux-standard-action';
 import { filterStocks, sortStocks } from 'helpers/search';
-import { startedFetchingStocks, finishedFetchingStocks } from 'actions/stocks';
+import {
+  startedFetchingStocks,
+  finishedFetchingStocks,
+  modifyStocksFilters
+} from 'actions/stocks';
 
 const initialState = {
   rawList: [],
@@ -18,6 +22,9 @@ const unstructureStock = stock => {
   return { ...company, ...rest };
 };
 
+const processFilters = (stocks, filterBy, orderingBy, orderingMode) =>
+  filterStocks(stocks, filterBy).sort(sortStocks(orderingBy, orderingMode));
+
 const reduceStocks = (state, action) => {
   if (isError(action))
     return { ...state, error: action.payload, isFetching: false };
@@ -25,8 +32,11 @@ const reduceStocks = (state, action) => {
   const unModified = action.payload.list.map(unstructureStock);
   const orderingBy = state.orderingBy || action.payload.orderingBy;
   const orderingMode = state.orderingMode || action.payload.orderingMode;
-  const modified = filterStocks(unModified, state.filterBy).sort(
-    sortStocks(orderingBy, orderingMode)
+  const modified = processFilters(
+    unModified,
+    state.filterBy,
+    orderingBy,
+    orderingMode
   );
 
   return {
@@ -43,7 +53,19 @@ const reduceStocks = (state, action) => {
 export default handleActions(
   {
     [startedFetchingStocks]: state => ({ ...state, isFetching: true }),
-    [finishedFetchingStocks]: reduceStocks
+    [finishedFetchingStocks]: reduceStocks,
+    [modifyStocksFilters]: (state, { payload }) => ({
+      ...state,
+      filterBy: payload.filterBy,
+      orderingBy: payload.orderingBy,
+      orderingMode: payload.orderingMode,
+      list: processFilters(
+        state.rawList,
+        payload.filterBy,
+        payload.orderingBy,
+        payload.orderingMode
+      )
+    })
   },
   initialState
 );

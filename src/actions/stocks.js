@@ -3,6 +3,7 @@ import { api } from 'config/network';
 
 export const startedFetchingStocks = createAction('FETCH_STOCKS_STARTED');
 export const finishedFetchingStocks = createAction('FETCH_STOCKS_FINISHED');
+export const modifyStocksFilters = createAction('MODIFY_STOCKS_FILTERS');
 
 export const getAllStocks = () => async (dispatch, getState) => {
   dispatch(startedFetchingStocks());

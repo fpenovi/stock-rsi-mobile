@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Screen } from 'components/Screen';
 import { HeaderFilter } from 'components/HeaderFilter';
 import { ListItemStock } from 'components/ListItemStock';
-import { getAllStocks } from 'actions/stocks';
+import { getAllStocks, modifyStocksFilters } from 'actions/stocks';
 import { ListContainer } from './styles';
 import { palette } from 'config/theme';
 import SORT_ORDER from 'components/HeaderFilter/attributeOrder';
@@ -44,10 +44,8 @@ class StockListScreen extends Component {
           }))
       : this.attributes);
 
-  updateStocks = (searchQuery, filterName, mode) => {
-    // ToDo dispatch Redux action that performs filtering
-    // this.props.modifyFilters(searchQuery, filterName, mode);
-  };
+  updateStocks = (filterBy, orderingBy, orderingMode) =>
+    this.props.modifyStocksFilters({ filterBy, orderingBy, orderingMode });
 
   componentDidMount() {
     this.props.getAllStocks();
@@ -108,5 +106,5 @@ const mapStateToProps = ({ stocks }) => ({
 
 export default connect(
   mapStateToProps,
-  { getAllStocks }
+  { getAllStocks, modifyStocksFilters }
 )(StockListScreen);
