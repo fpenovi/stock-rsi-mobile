@@ -5,15 +5,6 @@
    <BuildAction
       parallelizeBuildables = "NO"
       buildImplicitDependencies = "YES">
-      <PreActions>
-         <ExecutionAction
-            ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
-            <ActionContent
-               title = "Run Script"
-               scriptText = "echo &quot;.env.development&quot; &gt; /tmp/envfile">
-            </ActionContent>
-         </ExecutionAction>
-      </PreActions>
       <BuildActionEntries>
          <BuildActionEntry
             buildForTesting = "YES"
@@ -38,9 +29,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "StockRSI.app"
-               BlueprintName = "StockRSI"
-               ReferencedContainer = "container:StockRSI.xcodeproj">
+               BuildableName = "stockrsi.app"
+               BlueprintName = "stockrsi"
+               ReferencedContainer = "container:stockrsi.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -52,9 +43,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "StockRSITests.xctest"
-               BlueprintName = "StockRSITests"
-               ReferencedContainer = "container:StockRSI.xcodeproj">
+               BuildableName = "stockrsiTests.xctest"
+               BlueprintName = "stockrsiTests"
+               ReferencedContainer = "container:stockrsi.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -70,9 +61,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "StockRSITests.xctest"
-               BlueprintName = "StockRSITests"
-               ReferencedContainer = "container:StockRSI.xcodeproj">
+               BuildableName = "stockrsiTests.xctest"
+               BlueprintName = "stockrsiTests"
+               ReferencedContainer = "container:stockrsi.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -80,9 +71,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "StockRSI.app"
-            BlueprintName = "StockRSI"
-            ReferencedContainer = "container:StockRSI.xcodeproj">
+            BuildableName = "stockrsi.app"
+            BlueprintName = "stockrsi"
+            ReferencedContainer = "container:stockrsi.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -103,9 +94,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "StockRSI.app"
-            BlueprintName = "StockRSI"
-            ReferencedContainer = "container:StockRSI.xcodeproj">
+            BuildableName = "stockrsi.app"
+            BlueprintName = "stockrsi"
+            ReferencedContainer = "container:stockrsi.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -122,9 +113,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "StockRSI.app"
-            BlueprintName = "StockRSI"
-            ReferencedContainer = "container:StockRSI.xcodeproj">
+            BuildableName = "stockrsi.app"
+            BlueprintName = "stockrsi"
+            ReferencedContainer = "container:stockrsi.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

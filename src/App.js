@@ -4,9 +4,14 @@ import { UIManager, Platform } from 'react-native';
 import { ThemeProvider } from 'styled-components/native';
 import { Provider as PaperProvider } from 'react-native-paper';
 import { Provider } from 'react-redux';
+import { useScreens } from 'react-native-screens';
 import { StackNavigator } from 'navigation/StackNavigator';
 import theme, { paperTheme } from 'config/theme';
+
 import store from './store';
+
+// Enable the usage of screens for react-navigation
+useScreens();
 
 // Enable AnimationLayout on Android
 if (Platform.OS === 'android') {
