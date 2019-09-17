@@ -1,5 +1,5 @@
 import React from 'react';
-import { createStackNavigator } from 'react-navigation';
+import { createStackNavigator, createAppContainer } from 'react-navigation';
 import { TabNavigator } from 'navigation/TabNavigator';
 import { routes } from 'navigation/routes';
 import {
@@ -12,7 +12,7 @@ import { AddNewStockScreen } from 'screens/AddNewStockScreen';
 const stackConfig = {
   initialRouteName: routes.TAB_NAVIGATOR,
   headerMode: 'float',
-  navigationOptions: {
+  defaultNavigationOptions: {
     title: 'Stock RSI',
     headerStyle,
     headerTintColor,
@@ -20,16 +20,18 @@ const stackConfig = {
   }
 };
 
-export const StackNavigator = createStackNavigator(
-  {
-    [routes.TAB_NAVIGATOR]: { screen: TabNavigator },
-    [routes.ADD_NEW_STOCK_SCREEN]: {
-      screen: AddNewStockScreen,
-      navigationOptions: {
-        title: 'Subscribe to new symbol',
-        headerRight: <></>
+export const StackNavigator = createAppContainer(
+  createStackNavigator(
+    {
+      [routes.TAB_NAVIGATOR]: { screen: TabNavigator },
+      [routes.ADD_NEW_STOCK_SCREEN]: {
+        screen: AddNewStockScreen,
+        navigationOptions: {
+          title: 'Add new symbol',
+          headerRight: <></>
+        }
       }
-    }
-  },
-  stackConfig
+    },
+    stackConfig
+  )
 );

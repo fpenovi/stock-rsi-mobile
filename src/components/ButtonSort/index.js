@@ -23,10 +23,6 @@ export class ButtonSort extends PureComponent {
 
 ButtonSort.propTypes = {
   text: PropTypes.string.isRequired,
-  order: PropTypes.oneOf([1, -1, 0]),
+  order: PropTypes.oneOf([1, -1, 0]).isRequired,
   onPress: PropTypes.func.isRequired
-};
-
-ButtonSort.defaultProps = {
-  order: 1
 };

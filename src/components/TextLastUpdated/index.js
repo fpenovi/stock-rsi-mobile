@@ -11,7 +11,9 @@ export const TextLastUpdated = ({ date, style }) => {
   const diff = now - date;
   let result = '';
 
-  if (diff >= DAY) {
+  if (!date) {
+    result = 'N/A';
+  } else if (diff >= DAY) {
     result = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
   } else if (diff >= HOUR) {
     const hours = Math.floor(diff / HOUR);

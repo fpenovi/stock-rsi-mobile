@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { preventNotPresent } from 'helpers/formatting';
 import {
   BottomSection,
   Card,
@@ -29,7 +30,7 @@ export class ListItemStock extends PureComponent {
       error
     } = this.props;
 
-    const dateUpdated = new Date(lastUpdated);
+    const dateUpdated = lastUpdated && new Date(lastUpdated);
     const [upperLimit, lowerLimit] = [70, 30];
 
     return (
@@ -40,14 +41,16 @@ export class ListItemStock extends PureComponent {
           </LeftSection>
           <RightSection>
             <RsiText upperLimit={upperLimit} lowerLimit={lowerLimit}>
-              {rsi.toFixed(1)}
+              {preventNotPresent(rsi, rsi => rsi.toFixed(1))}
             </RsiText>
           </RightSection>
         </Sections>
         <BottomSection>
           <CompanySymbol>{symbol}</CompanySymbol>
           <StockPrice>
-            <SecondaryText>{`${price.toFixed(2)} USD`}</SecondaryText>
+            <SecondaryText>
+              {`${preventNotPresent(price, price => price.toFixed(2))} USD`}
+            </SecondaryText>
             <FeedBackText diff={diff} />
           </StockPrice>
           <LastUpdatedText date={dateUpdated} />
@@ -60,10 +63,10 @@ export class ListItemStock extends PureComponent {
 ListItemStock.propTypes = {
   companyName: PropTypes.string.isRequired,
   symbol: PropTypes.string.isRequired,
-  rsi: PropTypes.number.isRequired,
-  price: PropTypes.number.isRequired,
-  lastUpdated: PropTypes.string.isRequired,
-  diff: PropTypes.number.isRequired,
+  rsi: PropTypes.number,
+  price: PropTypes.number,
+  lastUpdated: PropTypes.string,
+  diff: PropTypes.number,
   error: PropTypes.bool
 };
 
